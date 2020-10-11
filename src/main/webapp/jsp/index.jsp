@@ -15,8 +15,8 @@
         %>
         <header>
             <a href="${pageContext.request.contextPath}/exhibitions/index?expositionPage=1"><fmt:message key="exhibitions"/></a>
-            <a href="?locale=en_US"><fmt:message key="en"/></a>
-            <a href="?locale=uk_UA"><fmt:message key="ua"/></a>
+            <a href="?locale=en"><fmt:message key="en"/></a>
+            <a href="?locale=ua"><fmt:message key="ua"/></a>
             <c:choose>
                 <c:when test="${sessionScope.account eq null}">
                     <button><a href="${pageContext.request.contextPath}/exhibitions/login"><fmt:message key="login"/></a></button>
@@ -44,7 +44,6 @@
         </header>
         <a href="${pageContext.request.contextPath}/exhibitions/sort_by_price_asc?page=1"><fmt:message key="sortByPriceAsc"/></a><br>
         <a href="${pageContext.request.contextPath}/exhibitions/sort_by_price_desc?page=1"><fmt:message key="sortByPriceDesc"/></a><br>
-
         <form method="post" action="${pageContext.request.contextPath}/exhibitions/filter_by_category?page=1">
             <select name="category">
                 <c:forEach var="category" items="${requestScope.categories}">
@@ -53,7 +52,8 @@
             </select>
             <button type="submit"><fmt:message key="filterByCategory"/></button>
         </form>
-        <c:out value="${requestScope.enterDates}"/><br>
+        <c:out value="${sessionScope.enterDates}"/><br>
+        <% session.removeAttribute("enterDates"); %>
         <form method="post" action="${pageContext.request.contextPath}/exhibitions/filter_by_date?page=1">
             <input type="date" name="start_date"/> - <input type="date" name="end_date"/>
             <button type="submit"><fmt:message key="filterByDate"/></button>

@@ -15,10 +15,10 @@
         %>
         <header>
             <a href="${pageContext.request.contextPath}/exhibitions/index?expositionPage=1"><fmt:message key="exhibitions"/></a>
-            <a href="?locale=en_US"><fmt:message key="en"/></a>
-            <a href="?locale=uk_UA"><fmt:message key="ua"/></a>
+            <a href="?locale=en"><fmt:message key="en"/></a>
+            <a href="?locale=ua"><fmt:message key="ua"/></a>
         </header>
-        <c:out value="${requestScope.wrongUsernameOrPassword}"/><br>
+        <c:out value="${sessionScope.wrongUsernameOrPassword}"/><br>
         <form method="post" action="${pageContext.request.contextPath}/exhibitions/login/login_button">
             <input type="text" placeholder="<fmt:message key="username"/>" autofocus name="login"/><br>
             <input type="password" placeholder="<fmt:message key="password"/>" name="password"/><br>

@@ -2,13 +2,14 @@ package controller.command.implementation;
 
 import controller.command.Command;
 import model.entity.Ticket;
-import util.LocaleManager;
+import util.ThreadLocalWrapper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class UserGetCartListCommand implements Command {
 
@@ -18,8 +19,9 @@ public class UserGetCartListCommand implements Command {
         BigDecimal total = new BigDecimal("0.00");
 
         if (cart == null || cart.isEmpty()) {
-            request.getSession().setAttribute("cartIsEmpty", LocaleManager.getString("error.cartIsEmpty"));
-            return "/jsp/user/user.jsp";
+            request.getSession().setAttribute("cartIsEmpty", ResourceBundle.getBundle("locale",
+                    ThreadLocalWrapper.getLocale()).getString("error.cartIsEmpty"));
+            return "redirect: /exhibitions/user";
         }
 
         for (Ticket ticket : cart)

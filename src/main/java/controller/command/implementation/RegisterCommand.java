@@ -3,10 +3,11 @@ package controller.command.implementation;
 import controller.command.Command;
 import model.entity.Account;
 import model.service.RegisterService;
-import util.LocaleManager;
+import util.ThreadLocalWrapper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
 public class RegisterCommand implements Command {
@@ -23,11 +24,12 @@ public class RegisterCommand implements Command {
         account = setUpAccount(request);
 
         if (!validate(request, account))
-            return "/jsp/register.jsp";
+            return "redirect: /exhibitions/register";
 
         else if (registerService.isExists(account.getLogin())) {
-            request.setAttribute("loginExists", LocaleManager.getString("error.loginExists"));
-            return "/jsp/register.jsp";
+            request.getSession().setAttribute("loginExists", ResourceBundle.getBundle("locale",
+                    ThreadLocalWrapper.getLocale()).getString("error.loginExists"));
+            return "redirect: /exhibitions/register";
         }
 
         else {
@@ -55,22 +57,26 @@ public class RegisterCommand implements Command {
         Pattern lastNamePattern = Pattern.compile("[A-ZА-Я][a-zа-я]{1,31}");
 
         if (!loginPattern.matcher(account.getLogin()).matches()) {
-            request.setAttribute("wrongUsername", LocaleManager.getString("error.wrongUsername"));
+            request.getSession().setAttribute("wrongUsername", ResourceBundle.getBundle("locale",
+                    ThreadLocalWrapper.getLocale()).getString("error.wrongUsername"));
             flag = false;
         }
 
         if (!passwordPattern.matcher(account.getPassword()).matches()) {
-            request.setAttribute("wrongPassword", LocaleManager.getString("error.wrongPassword"));
+            request.getSession().setAttribute("wrongPassword", ResourceBundle.getBundle("locale",
+                    ThreadLocalWrapper.getLocale()).getString("error.wrongPassword"));
             flag = false;
         }
 
         if (!firstNamePattern.matcher(account.getFirstName()).matches()) {
-            request.setAttribute("wrongFirstName", LocaleManager.getString("error.wrongFirstName"));
+            request.getSession().setAttribute("wrongFirstName", ResourceBundle.getBundle("locale",
+                    ThreadLocalWrapper.getLocale()).getString("error.wrongFirstName"));
             flag = false;
         }
 
         if (!lastNamePattern.matcher(account.getLastName()).matches()) {
-            request.setAttribute("wrongLastName", LocaleManager.getString("error.wrongLastName"));
+            request.getSession().setAttribute("wrongLastName", ResourceBundle.getBundle("locale",
+                    ThreadLocalWrapper.getLocale()).getString("error.wrongLastName"));
             flag = false;
         }
 

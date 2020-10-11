@@ -23,7 +23,6 @@ public class SecurityManager {
         loggedAccounts.remove(getAccountId(session));
         setLoggedAccounts(loggedAccounts);
         session.removeAttribute("account");
-        session.invalidate();
     }
 
     public void setLoggedAccounts(Map<Integer, HttpSession> loggedAccounts) {

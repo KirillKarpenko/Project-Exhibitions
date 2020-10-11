@@ -3,10 +3,11 @@ package controller.command.implementation;
 import controller.command.Command;
 import model.entity.Account;
 import model.service.UserAccountService;
-import util.LocaleManager;
+import util.ThreadLocalWrapper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
 public class UserUpdateAccountButtonCommand implements Command {
@@ -26,8 +27,9 @@ public class UserUpdateAccountButtonCommand implements Command {
             login = account.getLogin();
 
         else if (userAccountService.isExists(login)) {
-            request.getSession().setAttribute("loginExists", LocaleManager.getString("error.loginExists"));
-            return "/jsp/user/edit_account.jsp";
+            request.getSession().setAttribute("loginExists", ResourceBundle.getBundle("locale",
+                    ThreadLocalWrapper.getLocale()).getString("error.loginExists"));
+            return "redirect: /exhibitions/user/account_info/edit_account";
         }
 
         String firstName = request.getParameter("first_name");
@@ -51,6 +53,7 @@ public class UserUpdateAccountButtonCommand implements Command {
         temp.setPassword(password);
         temp.setFirstName(firstName);
         temp.setLastName(lastName);
+        temp.setRole(Account.Role.USER);
 
         if (validate(request, temp)) {
             userAccountService.update(temp);
@@ -59,7 +62,7 @@ public class UserUpdateAccountButtonCommand implements Command {
         }
 
         else
-            return "/jsp/user/edit_account.jsp";
+            return "redirect: /exhibitions/user/account_info/edit_account";
     }
 
     private boolean validate(HttpServletRequest request, Account account) {
@@ -70,22 +73,26 @@ public class UserUpdateAccountButtonCommand implements Command {
         Pattern lastNamePattern = Pattern.compile("[A-ZА-Я][a-zа-я]{1,31}");
 
         if (!loginPattern.matcher(account.getLogin()).matches()) {
-            request.getSession().setAttribute("wrongUsername", LocaleManager.getString("error.wrongUsername"));
+            request.getSession().setAttribute("wrongUsername", ResourceBundle.getBundle("locale",
+                    ThreadLocalWrapper.getLocale()).getString("error.wrongUsername"));
             flag = false;
         }
 
         if (!passwordPattern.matcher(account.getPassword()).matches()) {
-            request.getSession().setAttribute("wrongPassword", LocaleManager.getString("error.wrongPassword"));
+            request.getSession().setAttribute("wrongPassword", ResourceBundle.getBundle("locale",
+                    ThreadLocalWrapper.getLocale()).getString("error.wrongPassword"));
             flag = false;
         }
 
         if (!firstNamePattern.matcher(account.getFirstName()).matches()) {
-            request.getSession().setAttribute("wrongFirstName", LocaleManager.getString("error.wrongFirstName"));
+            request.getSession().setAttribute("wrongFirstName", ResourceBundle.getBundle("locale",
+                    ThreadLocalWrapper.getLocale()).getString("error.wrongFirstName"));
             flag = false;
         }
 
         if (!lastNamePattern.matcher(account.getLastName()).matches()) {
-            request.getSession().setAttribute("wrongLastName", LocaleManager.getString("error.wrongLastName"));
+            request.getSession().setAttribute("wrongLastName", ResourceBundle.getBundle("locale",
+                    ThreadLocalWrapper.getLocale()).getString("error.wrongLastName"));
             flag = false;
         }
 

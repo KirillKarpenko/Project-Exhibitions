@@ -16,14 +16,14 @@ public class AdminGetExpositionListCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         int total = adminExpositionService.amount();
-        int expositionsPerPage = 10;
+        int expositionsPerPage = 5;
         int totalExpositionPages = (int) Math.ceil((float) total/expositionsPerPage);
         request.setAttribute("totalExpositionPages", totalExpositionPages);
         int page = Integer.parseInt(Optional.ofNullable(request.getParameter("expositionPage")).orElse("1"));
         int start = (page-1)*expositionsPerPage;
         List<Exposition> expositions = adminExpositionService.findByPage(start, expositionsPerPage);
         request.setAttribute("expositions", expositions);
-        request.setAttribute("expositionPage", ++page);
+        request.setAttribute("expositionPage", page);
         return "/jsp/admin/expositions.jsp";
     }
 

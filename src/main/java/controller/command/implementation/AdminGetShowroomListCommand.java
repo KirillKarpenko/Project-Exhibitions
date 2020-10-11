@@ -16,7 +16,7 @@ public class AdminGetShowroomListCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         int total = adminShowroomService.amount();
-        int showroomsPerPage = 10;
+        int showroomsPerPage = 5;
         int totalShowroomPages = (int) Math.ceil((float) total/showroomsPerPage);
         request.setAttribute("totalShowroomPages", totalShowroomPages);
         int page = Integer.parseInt(Optional.ofNullable(request.getParameter("showroomPage")).orElse("1"));

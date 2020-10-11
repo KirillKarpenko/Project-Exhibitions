@@ -18,7 +18,7 @@ public class AdminDeleteShowroomButtonCommand implements Command {
         if (id != 0)
             adminShowroomService.deleteById(id);
 
-        return "/exhibitions/admin/showrooms?showroomPage=1";
+        return "redirect: /exhibitions/admin/showrooms?showroomPage=1";
     }
 
 }

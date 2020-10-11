@@ -5,12 +5,13 @@ import model.entity.Exposition;
 import model.entity.Showroom;
 import model.service.AdminExpositionService;
 import model.service.AdminShowroomService;
-import util.LocaleManager;
+import util.ThreadLocalWrapper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 
 public class AdminUpdateShowroomButtonCommand implements Command {
@@ -63,7 +64,8 @@ public class AdminUpdateShowroomButtonCommand implements Command {
             List<String> expositionsNames = adminExpositionService.findExpositionsNames();
             request.setAttribute("expositionsNames", expositionsNames);
             request.setAttribute("showroom", temp);
-            request.getSession().setAttribute("showroomExists", LocaleManager.getString("error.showroomExists"));
+            request.getSession().setAttribute("showroomExists", ResourceBundle.getBundle("locale",
+                    ThreadLocalWrapper.getLocale()).getString("error.showroomExists"));
             return "/jsp/admin/update_showroom.jsp";
         }
 

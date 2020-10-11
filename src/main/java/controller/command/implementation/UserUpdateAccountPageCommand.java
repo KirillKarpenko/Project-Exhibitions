@@ -1,7 +1,6 @@
 package controller.command.implementation;
 
 import controller.command.Command;
-import model.entity.Account;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

@@ -19,6 +19,7 @@ public class LocaleFilter implements Filter {
             request.getSession().setAttribute("lang", x);
             ThreadLocalWrapper.setLocale(new Locale(x));
         });
+
         if (request.getParameter("locale") == null) {
             try {
                 ThreadLocalWrapper.setLocale(new Locale((String) request.getSession().getAttribute("lang")));

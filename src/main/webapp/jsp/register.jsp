@@ -15,21 +15,26 @@
         %>
         <header>
             <a href="${pageContext.request.contextPath}/exhibitions/index?expositionPage=1"><fmt:message key="exhibitions"/></a>
-            <a href="?locale=en_US"><fmt:message key="en"/></a>
-            <a href="?locale=uk_UA"><fmt:message key="ua"/></a>
+            <a href="?locale=en"><fmt:message key="en"/></a>
+            <a href="?locale=ua"><fmt:message key="ua"/></a>
         </header>
-        <c:out value="${requestScope.loginExists}"/><br>
+        <c:out value="${sessionScope.loginExists}"/><br>
+        <% session.removeAttribute("loginExists"); %>
         <form method="post" action="${pageContext.request.contextPath}/exhibitions/register/register_button">
-            <c:out value="${requestScope.wrongUsername}"/><br>
+            <c:out value="${sessionScope.wrongUsername}"/><br>
+            <% session.removeAttribute("wrongUsername"); %>
             <label><fmt:message key="username"/><span>*</span></label>
             <input type="text" name="login"/><br>
-            <c:out value="${requestScope.wrongPassword}"/><br>
+            <c:out value="${sessionScope.wrongPassword}"/><br>
+            <% session.removeAttribute("wrongPassword"); %>
             <label><fmt:message key="password"/><span>*</span></label>
             <input type="password" name="password"/><br>
-            <c:out value="${requestScope.wrongFirstName}"/><br>
+            <c:out value="${sessionScope.wrongFirstName}"/><br>
+            <% session.removeAttribute("wrongFirstName"); %>
             <label><fmt:message key="firstName"/><span>*</span></label>
             <input type="text" name="first_name"><br>
-            <c:out value="${requestScope.wrongLastName}"/><br>
+            <c:out value="${sessionScope.wrongLastName}"/><br>
+            <% session.removeAttribute("wrongLastName"); %>
             <label><fmt:message key="lastName"/><span>*</span></label>
             <input type="text" name="last_name"><br>
             <button type="submit"><fmt:message key="signUp"/></button>

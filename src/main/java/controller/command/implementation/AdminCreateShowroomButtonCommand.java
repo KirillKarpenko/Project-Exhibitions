@@ -4,10 +4,11 @@ import controller.command.Command;
 import model.entity.Showroom;
 import model.service.AdminExpositionService;
 import model.service.AdminShowroomService;
-import util.LocaleManager;
+import util.ThreadLocalWrapper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ResourceBundle;
 
 public class AdminCreateShowroomButtonCommand implements Command {
 
@@ -19,12 +20,14 @@ public class AdminCreateShowroomButtonCommand implements Command {
         String name = request.getParameter("showroom_name");
 
         if (name == null || name.isEmpty()) {
-            request.getSession().setAttribute("enterAllFields", LocaleManager.getString("error.enterAllFields"));
+            request.getSession().setAttribute("enterAllFields", ResourceBundle.getBundle("locale",
+                    ThreadLocalWrapper.getLocale()).getString("error.enterAllFields"));
             return "redirect: /exhibitions/admin/create_showroom";
         }
 
         if (adminShowroomService.isExists(name)) {
-            request.getSession().setAttribute("showroomExists", LocaleManager.getString("error.showroomExists"));
+            request.getSession().setAttribute("showroomExists", ResourceBundle.getBundle("locale",
+                    ThreadLocalWrapper.getLocale()).getString("error.showroomExists"));
             return "redirect: /exhibitions/admin/create_showroom";
         }
 

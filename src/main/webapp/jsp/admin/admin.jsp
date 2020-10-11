@@ -15,8 +15,8 @@
         %>
         <header>
             <a href="${pageContext.request.contextPath}/exhibitions/index?expositionPage=1"><fmt:message key="exhibitions"/></a>
-            <a href="?locale=en_US"><fmt:message key="en"/></a>
-            <a href="?locale=uk_UA"><fmt:message key="ua"/></a>
+            <a href="?locale=en"><fmt:message key="en"/></a>
+            <a href="?locale=ua"><fmt:message key="ua"/></a>
             <ul>
                 <li>
                     <span><c:out value="${sessionScope.account.firstName}"/> <c:out value="${sessionScope.account.lastName}"/></span>

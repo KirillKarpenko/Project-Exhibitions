@@ -3,7 +3,7 @@ package controller.command.implementation;
 import controller.command.Command;
 import model.entity.Exposition;
 import model.service.AdminExpositionService;
-import util.LocaleManager;
+import util.ThreadLocalWrapper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,6 +11,7 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 
 public class AdminUpdateExpositionButtonCommand implements Command {
@@ -42,7 +43,8 @@ public class AdminUpdateExpositionButtonCommand implements Command {
             List<Exposition.Category> categories = List.of(Exposition.Category.values());
             request.setAttribute("categories", categories);
             request.setAttribute("exposition", temp);
-            request.getSession().setAttribute("expositionExists", LocaleManager.getString("error.expositionExists"));
+            request.getSession().setAttribute("expositionExists", ResourceBundle.getBundle("locale",
+                    ThreadLocalWrapper.getLocale()).getString("error.expositionExists"));
             return "/jsp/admin/update_exposition.jsp";
         }
 

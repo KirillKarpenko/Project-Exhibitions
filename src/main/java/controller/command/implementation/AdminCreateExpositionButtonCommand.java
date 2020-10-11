@@ -3,12 +3,13 @@ package controller.command.implementation;
 import controller.command.Command;
 import model.entity.Exposition;
 import model.service.AdminExpositionService;
-import util.LocaleManager;
+import util.ThreadLocalWrapper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.ResourceBundle;
 
 public class AdminCreateExpositionButtonCommand implements Command {
 
@@ -22,12 +23,14 @@ public class AdminCreateExpositionButtonCommand implements Command {
         String stingPrice = request.getParameter("price");
 
         if (name == null || name.isEmpty() || startLocalDate == null || startLocalDate.isEmpty() || endLocalDate == null || endLocalDate.isEmpty() || stingPrice == null || stingPrice.isEmpty()) {
-            request.getSession().setAttribute("enterAllFields", LocaleManager.getString("error.enterAllFields"));
+            request.getSession().setAttribute("enterAllFields", ResourceBundle.getBundle("locale",
+                    ThreadLocalWrapper.getLocale()).getString("error.enterAllFields"));
             return "redirect: /exhibitions/admin/create_exposition";
         }
 
         if (adminExpositionService.isExists(name)) {
-            request.getSession().setAttribute("expositionExists", LocaleManager.getString("error.expositionExists"));
+            request.getSession().setAttribute("expositionExists", ResourceBundle.getBundle("locale",
+                    ThreadLocalWrapper.getLocale()).getString("error.expositionExists"));
             return "redirect: /exhibitions/admin/create_exposition";
         }
 

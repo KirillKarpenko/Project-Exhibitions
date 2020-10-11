@@ -5,11 +5,12 @@ import model.entity.Account;
 import model.entity.Booking;
 import model.entity.Ticket;
 import model.service.UserBookingService;
-import util.LocaleManager;
+import util.ThreadLocalWrapper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class UserSendOrderButtonCommand implements Command {
 
@@ -29,7 +30,8 @@ public class UserSendOrderButtonCommand implements Command {
             return "redirect: /exhibitions/user";
 
         if (userBookingService.isUnpaidBookingExists(account.getId())) {
-            request.getSession().setAttribute("payPreviousBooking", LocaleManager.getString("error.payPreviousBooking"));
+            request.getSession().setAttribute("payPreviousBooking", ResourceBundle.getBundle("locale",
+                    ThreadLocalWrapper.getLocale()).getString("error.payPreviousBooking"));
             return "redirect: /exhibitions/user/cart";
         }
 
@@ -39,7 +41,7 @@ public class UserSendOrderButtonCommand implements Command {
         booking.setTotal(total);
         userBookingService.create(booking);
         cart.clear();
-        return "redirect: /exhibitions/user/";
+        return "redirect: /exhibitions/user";
     }
 
 }

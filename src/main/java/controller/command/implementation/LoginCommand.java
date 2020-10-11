@@ -3,13 +3,12 @@ package controller.command.implementation;
 import controller.command.Command;
 import model.entity.Account;
 import model.service.LoginService;
-import util.LocaleManager;
 import util.SecurityManager;
+import util.ThreadLocalWrapper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -46,8 +45,9 @@ public class LoginCommand implements Command {
             else
                 return "redirect: /exhibitions/index?expositionPage=1";
         } catch (RuntimeException e) {
-            request.setAttribute("wrongUsernameOrPassword", LocaleManager.getString("error.wrongUsernameOrPassword"));
-            return "/jsp/login.jsp";
+            request.getSession().setAttribute("wrongUsernameOrPassword", ResourceBundle.getBundle("locale",
+                    ThreadLocalWrapper.getLocale()).getString("error.wrongUsernameOrPassword"));
+            return "redirect: /exhibitions/login";
         }
     }
 

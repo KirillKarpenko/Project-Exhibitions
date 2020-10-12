@@ -267,6 +267,181 @@ public class ExpositionDaoImpl implements ExpositionDao {
     }
 
     @Override
+    public List<Exposition> sortByPriceAscAndFilterByCategoryByPage(Exposition.Category category, int start, int total) {
+        String query = QueryManager.getString("exposition.sortByPriceAscAndFilterByCategoryByPage");
+        List<Exposition> expositions = new ArrayList<>();
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, category.name());
+            preparedStatement.setInt(2, start);
+            preparedStatement.setInt(3, total);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next())
+                    expositions.add(getExpositionFromResultSet(resultSet));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return expositions;
+    }
+
+    @Override
+    public List<Exposition> sortByPriceDescAndFilterByCategoryByPage(Exposition.Category category, int start, int total) {
+        String query = QueryManager.getString("exposition.sortByPriceDescAndFilterByCategoryByPage");
+        List<Exposition> expositions = new ArrayList<>();
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, category.name());
+            preparedStatement.setInt(2, start);
+            preparedStatement.setInt(3, total);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next())
+                    expositions.add(getExpositionFromResultSet(resultSet));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return expositions;
+    }
+
+    @Override
+    public List<Exposition> sortByPriceAscAndFilterByDateByPage(Timestamp startDate, Timestamp endDate, int start, int total) {
+        String query = QueryManager.getString("exposition.sortByPriceAscAndFilterByDateByPage");
+        List<Exposition> expositions = new ArrayList<>();
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setTimestamp(1, startDate);
+            preparedStatement.setTimestamp(2, endDate);
+            preparedStatement.setInt(3, start);
+            preparedStatement.setInt(4, total);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next())
+                    expositions.add(getExpositionFromResultSet(resultSet));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return expositions;
+    }
+
+    @Override
+    public List<Exposition> sortByPriceDescAndFilterByDateByPage(Timestamp startDate, Timestamp endDate, int start, int total) {
+        String query = QueryManager.getString("exposition.sortByPriceDescAndFilterByDateByPage");
+        List<Exposition> expositions = new ArrayList<>();
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setTimestamp(1, startDate);
+            preparedStatement.setTimestamp(2, endDate);
+            preparedStatement.setInt(3, start);
+            preparedStatement.setInt(4, total);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next())
+                    expositions.add(getExpositionFromResultSet(resultSet));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return expositions;
+    }
+
+    @Override
+    public List<Exposition> filterByDateAndCategoryByPage(Timestamp startDate, Timestamp endDate, Exposition.Category category, int start, int total) {
+        String query = QueryManager.getString("exposition.filterByDateAndCategoryByPage");
+        List<Exposition> expositions = new ArrayList<>();
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setTimestamp(1, startDate);
+            preparedStatement.setTimestamp(2, endDate);
+            preparedStatement.setString(3, category.name());
+            preparedStatement.setInt(4, start);
+            preparedStatement.setInt(5, total);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next())
+                    expositions.add(getExpositionFromResultSet(resultSet));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return expositions;
+    }
+
+    @Override
+    public List<Exposition> sortByPriceAscAndFilterByCategoryAndDateByPage(Timestamp startDate, Timestamp endDate, Exposition.Category category, int start, int total) {
+        String query = QueryManager.getString("exposition.sortByPriceAscAndFilterByCategoryAndDateByPage");
+        List<Exposition> expositions = new ArrayList<>();
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setTimestamp(1, startDate);
+            preparedStatement.setTimestamp(2, endDate);
+            preparedStatement.setString(3, category.name());
+            preparedStatement.setInt(4, start);
+            preparedStatement.setInt(5, total);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next())
+                    expositions.add(getExpositionFromResultSet(resultSet));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return expositions;
+    }
+
+    @Override
+    public List<Exposition> sortByPriceDescAndFilterByCategoryAndDateByPage(Timestamp startDate, Timestamp endDate, Exposition.Category category, int start, int total) {
+        String query = QueryManager.getString("exposition.sortByPriceDescAndFilterByCategoryAndDateByPage");
+        List<Exposition> expositions = new ArrayList<>();
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setTimestamp(1, startDate);
+            preparedStatement.setTimestamp(2, endDate);
+            preparedStatement.setString(3, category.name());
+            preparedStatement.setInt(4, start);
+            preparedStatement.setInt(5, total);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next())
+                    expositions.add(getExpositionFromResultSet(resultSet));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return expositions;
+    }
+
+    @Override
+    public int categoryAndDateAmount(Timestamp startDate, Timestamp endDate, Exposition.Category category) {
+        String categoryAndDateAmount = QueryManager.getString("exposition.categoryAndDateAmount");
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(categoryAndDateAmount)) {
+            preparedStatement.setTimestamp(1, startDate);
+            preparedStatement.setTimestamp(2, endDate);
+            preparedStatement.setString(3, category.name());
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next())
+                    return resultSet.getInt("count");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
+    @Override
     public void update(Exposition exposition) {
         String update = QueryManager.getString("exposition.update");
 

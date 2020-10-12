@@ -50,10 +50,6 @@ public class Servlet extends HttpServlet {
         commands.put("user/bookings", new UserGetAccountBookingListCommand());
         commands.put("user/account_info", new UserGetAccountInfoCommand());
         commands.put("user/cart", new UserGetCartListCommand());
-        commands.put("filter_by_category", new UserGetExpositionListFilterByCategoryCommand());
-        commands.put("filter_by_date", new UserGetExpositionListFilterByDateCommand());
-        commands.put("sort_by_price_asc", new UserGetExpositionListSortByPriceAscCommand());
-        commands.put("sort_by_price_desc", new UserGetExpositionListSortByPriceDescCommand());
         commands.put("user/cart/remove_from_cart", new UserRemoveFromCartButtonCommand());
         commands.put("user/cart/send_order", new UserSendOrderButtonCommand());
         commands.put("user/account_info/edit_account/edit_account_button", new UserUpdateAccountButtonCommand());

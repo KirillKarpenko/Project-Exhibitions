@@ -58,4 +58,52 @@ public class UserExpositionService {
         }
     }
 
+    public List<Exposition> sortByPriceAscAndFilterByCategoryByPage(Exposition.Category category, int start, int total) {
+        try (ExpositionDao expositionDao = daoFactory.createExpositionDao()) {
+            return expositionDao.sortByPriceAscAndFilterByCategoryByPage(category, start, total);
+        }
+    }
+
+    public List<Exposition> sortByPriceDescAndFilterByCategoryByPage(Exposition.Category category, int start, int total) {
+        try (ExpositionDao expositionDao = daoFactory.createExpositionDao()) {
+            return expositionDao.sortByPriceDescAndFilterByCategoryByPage(category, start, total);
+        }
+    }
+
+    public List<Exposition> sortByPriceAscAndFilterByDateByPage(Timestamp startDate, Timestamp endDate, int start, int total) {
+        try (ExpositionDao expositionDao = daoFactory.createExpositionDao()) {
+            return expositionDao.sortByPriceAscAndFilterByDateByPage(startDate, endDate, start, total);
+        }
+    }
+
+    public List<Exposition> sortByPriceDescAndFilterByDateByPage(Timestamp startDate, Timestamp endDate, int start, int total) {
+        try (ExpositionDao expositionDao = daoFactory.createExpositionDao()) {
+            return expositionDao.sortByPriceDescAndFilterByDateByPage(startDate, endDate, start, total);
+        }
+    }
+
+    public List<Exposition> filterByDateAndCategoryByPage(Timestamp startDate, Timestamp endDate, Exposition.Category category, int start, int total) {
+        try (ExpositionDao expositionDao = daoFactory.createExpositionDao()) {
+            return expositionDao.filterByDateAndCategoryByPage(startDate, endDate, category, start, total);
+        }
+    }
+
+    public List<Exposition> sortByPriceAscAndFilterByCategoryAndDateByPage(Timestamp startDate, Timestamp endDate, Exposition.Category category, int start, int total) {
+        try (ExpositionDao expositionDao = daoFactory.createExpositionDao()) {
+            return expositionDao.sortByPriceAscAndFilterByCategoryAndDateByPage(startDate, endDate, category, start, total);
+        }
+    }
+
+    public List<Exposition> sortByPriceDescAndFilterByCategoryAndDateByPage(Timestamp startDate, Timestamp endDate, Exposition.Category category, int start, int total) {
+        try (ExpositionDao expositionDao = daoFactory.createExpositionDao()) {
+            return expositionDao.sortByPriceDescAndFilterByCategoryAndDateByPage(startDate, endDate, category, start, total);
+        }
+    }
+
+    public int categoryAndDateAmount(Timestamp startDate, Timestamp endDate, Exposition.Category category) {
+        try (ExpositionDao expositionDao = daoFactory.createExpositionDao()) {
+            return expositionDao.categoryAndDateAmount(startDate, endDate, category);
+        }
+    }
+
 }

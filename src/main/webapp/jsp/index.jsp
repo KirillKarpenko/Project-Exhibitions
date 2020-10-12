@@ -14,9 +14,9 @@
             response.addDateHeader ("Expires", 0);
         %>
         <header>
-            <a href="${pageContext.request.contextPath}/exhibitions/index?expositionPage=1"><fmt:message key="exhibitions"/></a>
-            <a href="?locale=en"><fmt:message key="en"/></a>
-            <a href="?locale=ua"><fmt:message key="ua"/></a>
+            <a href="${pageContext.request.contextPath}/exhibitions/index?page=1"><fmt:message key="exhibitions"/></a>
+            <a href="${pageContext.request.contextPath}exhibitions/index?category=${requestScope.category}&start_date=${requestScope.start_date}&end_date=${requestScope.end_date}&sort=${requestScope.sort}&page=${requestScope.page}&locale=en"><fmt:message key="en"/></a>
+            <a href="${pageContext.request.contextPath}exhibitions/index?category=${requestScope.category}&start_date=${requestScope.start_date}&end_date=${requestScope.end_date}&sort=${requestScope.sort}&page=${requestScope.page}&locale=ua"><fmt:message key="ua"/></a>
             <c:choose>
                 <c:when test="${sessionScope.account eq null}">
                     <button><a href="${pageContext.request.contextPath}/exhibitions/login"><fmt:message key="login"/></a></button>
@@ -42,19 +42,24 @@
                 </c:otherwise>
             </c:choose>
         </header>
-        <a href="${pageContext.request.contextPath}/exhibitions/sort_by_price_asc?page=1"><fmt:message key="sortByPriceAsc"/></a><br>
-        <a href="${pageContext.request.contextPath}/exhibitions/sort_by_price_desc?page=1"><fmt:message key="sortByPriceDesc"/></a><br>
-        <form method="post" action="${pageContext.request.contextPath}/exhibitions/filter_by_category?page=1">
+        <a href="${pageContext.request.contextPath}/exhibitions/index?category=${requestScope.category}&start_date=${requestScope.start_date}&end_date=${requestScope.end_date}&sort=sort_by_price_asc&page=1"><fmt:message key="sortByPriceAsc"/></a><br>
+        <a href="${pageContext.request.contextPath}/exhibitions/index?category=${requestScope.category}&start_date=${requestScope.start_date}&end_date=${requestScope.end_date}&sort=sort_by_price_desc&page=1"><fmt:message key="sortByPriceDesc"/></a><br>
+        <form method="get" action="${pageContext.request.contextPath}/exhibitions/index?category=${requestScope.category}&start_date=${requestScope.start_date}&end_date=${requestScope.end_date}&sort=${requestScope.sort}&page=1">
             <select name="category">
                 <c:forEach var="category" items="${requestScope.categories}">
                     <option value="${category}">${category.name()}</option>
                 </c:forEach>
             </select>
+            <input hidden name="start_date" value="${requestScope.start_date}">
+            <input hidden name="end_date" value="${requestScope.end_date}">
+            <input hidden name="sort" value="${requestScope.sort}">
             <button type="submit"><fmt:message key="filterByCategory"/></button>
         </form>
         <c:out value="${sessionScope.enterDates}"/><br>
         <% session.removeAttribute("enterDates"); %>
-        <form method="post" action="${pageContext.request.contextPath}/exhibitions/filter_by_date?page=1">
+        <form method="get" action="${pageContext.request.contextPath}/exhibitions/index?category=${requestScope.category}&start_date=${requestScope.start_date}&end_date=${requestScope.end_date}&sort=${requestScope.sort}&page=1">
+            <input hidden name="category" value="${requestScope.category}">
+            <input hidden name="sort" value="${requestScope.sort}">
             <input type="date" name="start_date"/> - <input type="date" name="end_date"/>
             <button type="submit"><fmt:message key="filterByDate"/></button>
         </form>
@@ -95,7 +100,7 @@
                             <td align="center">${i}</td>
                         </c:when>
                         <c:otherwise>
-                            <td align="center"><a href="${pageContext.request.contextPath}/exhibitions/index?page=${i}">${i}</a></td>
+                            <td align="center"><a href="${pageContext.request.contextPath}/exhibitions/index?category=${requestScope.category}&start_date=${requestScope.start_date}&end_date=${requestScope.end_date}&sort=${requestScope.sort}&page=${i}">${i}</a></td>
                         </c:otherwise>
                     </c:choose>
                 </c:forEach>

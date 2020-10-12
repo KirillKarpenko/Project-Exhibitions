@@ -17,4 +17,12 @@ public interface ExpositionDao extends GenericDao<Exposition> {
     List<Exposition> sortByPriceDescByPage(int start, int total);
     List<Exposition> filterByCategoryByPage(Exposition.Category category, int start, int total);
     int categoryAmount(Exposition.Category category);
+    List<Exposition> sortByPriceAscAndFilterByCategoryByPage(Exposition.Category category, int start, int total);
+    List<Exposition> sortByPriceDescAndFilterByCategoryByPage(Exposition.Category category, int start, int total);
+    List<Exposition> sortByPriceAscAndFilterByDateByPage(Timestamp startDate, Timestamp endDate, int start, int total);
+    List<Exposition> sortByPriceDescAndFilterByDateByPage(Timestamp startDate, Timestamp endDate, int start, int total);
+    List<Exposition> filterByDateAndCategoryByPage(Timestamp startDate, Timestamp endDate, Exposition.Category category, int start, int total);
+    List<Exposition> sortByPriceAscAndFilterByCategoryAndDateByPage(Timestamp startDate, Timestamp endDate, Exposition.Category category, int start, int total);
+    List<Exposition> sortByPriceDescAndFilterByCategoryAndDateByPage(Timestamp startDate, Timestamp endDate, Exposition.Category category, int start, int total);
+    int categoryAndDateAmount (Timestamp startDate, Timestamp endDate, Exposition.Category category);
 }

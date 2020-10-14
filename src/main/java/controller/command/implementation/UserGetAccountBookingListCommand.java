@@ -23,14 +23,14 @@ public class UserGetAccountBookingListCommand implements Command {
 
         int id = account.getId();
         int total = userBookingService.accountAmount(id);
-        int bookingsPerPage = 10;
+        int bookingsPerPage = 5;
         int totalAccountBookingPages = (int) Math.ceil((float) total/bookingsPerPage);
         request.setAttribute("totalAccountBookingPages", totalAccountBookingPages);
         int page = Integer.parseInt(Optional.ofNullable(request.getParameter("bookingPage")).orElse("1"));
         int start = (page-1)*bookingsPerPage;
         List<Booking> bookings = userBookingService.findAccountBookingsByPage(id, start, bookingsPerPage);
         request.setAttribute("bookings", bookings);
-        request.setAttribute("bookingPage", ++page);
+        request.setAttribute("bookingPage", page);
         return "/jsp/user/bookings.jsp";
     }
 

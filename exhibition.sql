@@ -7,13 +7,13 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema exhibitions
 -- -----------------------------------------------------
-DROP SCHEMA IF EXISTS `exhibition_test` ;
+DROP SCHEMA IF EXISTS `exhibition`;
 
 -- -----------------------------------------------------
 -- Schema exhibitions
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `exhibition_test` DEFAULT CHARACTER SET utf8 ;
-USE `exhibition_test` ;
+CREATE SCHEMA IF NOT EXISTS `exhibition` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `exhibition`;
 
 -- -----------------------------------------------------
 -- Table `account`

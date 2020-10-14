@@ -1,0 +1,17 @@
+html {
+    margin: 1%;
+}
+
+.brand-logo {
+    margin-left: 1%;
+}
+
+.error {
+    display: flex;
+    justify-content: center;
+}
+
+a.return_home {
+    display: table;
+    margin: auto;
+}

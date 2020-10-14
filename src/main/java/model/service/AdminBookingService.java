@@ -4,8 +4,6 @@ import model.dao.BookingDao;
 import model.dao.DaoFactory;
 import model.entity.Booking;
 
-import java.util.List;
-
 public class AdminBookingService {
 
     private final DaoFactory daoFactory = DaoFactory.getInstance();

@@ -57,24 +57,6 @@ public class ExpositionDaoImpl implements ExpositionDao {
     }
 
     @Override
-    public Exposition findById(int id) {
-        String findById = QueryManager.getString("exposition.findById");
-
-        try (PreparedStatement preparedStatement = connection.prepareStatement(findById)) {
-            preparedStatement.setInt(1, id);
-
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next())
-                    return getExpositionFromResultSet(resultSet);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    @Override
     public Exposition findByName(String name) {
         String findByName = QueryManager.getString("exposition.findByName");
 

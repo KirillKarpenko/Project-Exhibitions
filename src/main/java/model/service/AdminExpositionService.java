@@ -2,7 +2,6 @@ package model.service;
 
 import model.dao.DaoFactory;
 import model.dao.ExpositionDao;
-import model.dao.ShowroomDao;
 import model.entity.Exposition;
 
 import java.util.List;
@@ -33,12 +32,6 @@ public class AdminExpositionService {
     public List<String> findExpositionsNames() {
         try (ExpositionDao expositionDao = daoFactory.createExpositionDao()) {
             return expositionDao.findExpositionsNames();
-        }
-    }
-
-    public Exposition findById(int id) {
-        try (ExpositionDao expositionDao = daoFactory.createExpositionDao()) {
-            return expositionDao.findById(id);
         }
     }
 

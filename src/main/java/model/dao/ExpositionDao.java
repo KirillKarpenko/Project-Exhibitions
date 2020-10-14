@@ -6,7 +6,6 @@ import java.sql.Timestamp;
 import java.util.List;
 
 public interface ExpositionDao extends GenericDao<Exposition> {
-    Exposition findById(int id);
     Exposition findByName(String name);
     List<Exposition> findByPage(int start, int total);
     List<String> findExpositionsNames();

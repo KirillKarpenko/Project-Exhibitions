@@ -1,6 +1,5 @@
 package model.dao;
 
-import model.entity.Exposition;
 import model.entity.Showroom;
 
 import java.util.List;

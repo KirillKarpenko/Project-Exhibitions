@@ -19,8 +19,8 @@
             <div class="nav-wrapper">
                 <a class="brand-logo" href="${pageContext.request.contextPath}/exhibitions/index?page=1"><fmt:message key="exhibitions"/></a>
                 <ul class="right hide-on-med-and-down">
-                    <li><a href="${pageContext.request.contextPath}exhibitions/index?category=${requestScope.category}&start_date=${requestScope.start_date}&end_date=${requestScope.end_date}&sort=${requestScope.sort}&page=${requestScope.page}&locale=en"><fmt:message key="en"/></a></li>
-                    <li><a href="${pageContext.request.contextPath}exhibitions/index?category=${requestScope.category}&start_date=${requestScope.start_date}&end_date=${requestScope.end_date}&sort=${requestScope.sort}&page=${requestScope.page}&locale=ua"><fmt:message key="ua"/></a></li>
+                    <li><a href="${pageContext.request.contextPath}exhibitions/index?page=${requestScope.page}&locale=en"><fmt:message key="en"/></a></li>
+                    <li><a href="${pageContext.request.contextPath}exhibitions/index?page=${requestScope.page}&locale=ua"><fmt:message key="ua"/></a></li>
                     <c:choose>
                         <c:when test="${sessionScope.account eq null}">
                             <li><a href="${pageContext.request.contextPath}/exhibitions/login"><fmt:message key="login"/></a></li>
@@ -50,8 +50,8 @@
         <div class="row">
             <form method="get" action="${pageContext.request.contextPath}/exhibitions/index?category=${requestScope.category}&start_date=${requestScope.start_date}&end_date=${requestScope.end_date}&sort=${requestScope.sort}&page=1">
                 <select class="col s2 browser-default" name="category">
-                    <c:forEach var="category" items="${requestScope.categories}">
-                        <option value="${category}">${category.name()}</option>
+                    <c:forEach var="category" items="${requestScope.all_categories}">
+                        <option value="${category}">${category}</option>
                     </c:forEach>
                 </select>
                 <input hidden name="start_date" value="${requestScope.start_date}">
@@ -78,10 +78,10 @@
                 <th align="center"><fmt:message key="endDate"/></th>
                 <th align="center"><fmt:message key="price"/></th>
             </tr>
-            <c:forEach var="exp" items="${requestScope.expositions}">
+            <c:forEach var="exp" items="${requestScope.expositions}" varStatus="i">
                 <tr>
                     <td align="center"><c:out value="${exp.name}"/></td>
-                    <td align="center"><c:out value="${exp.category}"/></td>
+                    <td align="center"><c:out value="${requestScope.categories[i.index]}"/></td>
                     <fmt:formatDate value="${exp.startDate}" pattern="yyyy-MM-dd" var="startDate"/>
                     <td align="center"><c:out value="${startDate}"/></td>
                     <fmt:formatDate value="${exp.endDate}" pattern="yyyy-MM-dd" var="endDate"/>

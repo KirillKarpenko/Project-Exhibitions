@@ -5,6 +5,7 @@ import model.entity.Exposition;
 import model.entity.Showroom;
 import org.apache.log4j.Logger;
 import util.QueryManager;
+import util.ThreadLocalWrapper;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.List;
 public class ShowroomDaoImpl implements ShowroomDao {
 
     private final Connection connection;
-    private static final Logger log = Logger.getLogger(ExpositionDaoImpl.class);
+    private static final Logger log = Logger.getLogger(ShowroomDaoImpl.class);
 
     public ShowroomDaoImpl(Connection connection) {
         this.connection = connection;
@@ -27,6 +28,7 @@ public class ShowroomDaoImpl implements ShowroomDao {
             connection.setAutoCommit(false);
             preparedStatement.setString(1, showroom.getName());
             preparedStatement.setInt(2, showroom.getExposition().getId());
+            preparedStatement.setString(3, ThreadLocalWrapper.getLocale().toString());
             preparedStatement.executeUpdate();
 
             try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
@@ -62,6 +64,7 @@ public class ShowroomDaoImpl implements ShowroomDao {
         )) {
             connection.setAutoCommit(false);
             preparedStatement.setString(1, showroom.getName());
+            preparedStatement.setString(2, ThreadLocalWrapper.getLocale().toString());
             preparedStatement.executeUpdate();
 
             try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
@@ -95,6 +98,7 @@ public class ShowroomDaoImpl implements ShowroomDao {
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(findByName)) {
             preparedStatement.setString(1, name);
+            preparedStatement.setString(2, ThreadLocalWrapper.getLocale().toString());
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next())
@@ -113,8 +117,9 @@ public class ShowroomDaoImpl implements ShowroomDao {
         List<Showroom> showrooms = new ArrayList<>();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(findByPage)) {
-            preparedStatement.setInt(1, start);
-            preparedStatement.setInt(2, total);
+            preparedStatement.setString(1, ThreadLocalWrapper.getLocale().toString());
+            preparedStatement.setInt(2, start);
+            preparedStatement.setInt(3, total);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next())
@@ -131,8 +136,10 @@ public class ShowroomDaoImpl implements ShowroomDao {
     public int amount() {
         String amount = QueryManager.getString("showroom.amount");
 
-        try (Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(amount)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(amount)) {
+            preparedStatement.setString(1, ThreadLocalWrapper.getLocale().toString());
+            ResultSet resultSet = preparedStatement.executeQuery();
+
             if (resultSet.next())
                 return resultSet.getInt("count");
         } catch (SQLException e) {
@@ -149,7 +156,8 @@ public class ShowroomDaoImpl implements ShowroomDao {
         try (PreparedStatement preparedStatement = connection.prepareStatement(updateSetExpositionNull)) {
             connection.setAutoCommit(false);
             preparedStatement.setString(1, showroom.getName());
-            preparedStatement.setInt(2, showroom.getId());
+            preparedStatement.setString(2, ThreadLocalWrapper.getLocale().toString());
+            preparedStatement.setInt(3, showroom.getId());
 
             if (preparedStatement.executeUpdate() == 0)
                 throw new SQLException("There is nothing to update in showroom!");
@@ -179,7 +187,8 @@ public class ShowroomDaoImpl implements ShowroomDao {
             connection.setAutoCommit(false);
             preparedStatement.setString(1, showroom.getName());
             preparedStatement.setInt(2, showroom.getExposition().getId());
-            preparedStatement.setInt(3, showroom.getId());
+            preparedStatement.setString(3, ThreadLocalWrapper.getLocale().toString());
+            preparedStatement.setInt(4, showroom.getId());
 
             if (preparedStatement.executeUpdate() == 0)
                 throw new SQLException("There is nothing to update in showroom!");

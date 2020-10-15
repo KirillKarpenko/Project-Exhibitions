@@ -58,7 +58,7 @@ public class CreateBookingTest {
     @Test
     public void test() {
         String createBooking = command.execute(request, response);
-        Assert.assertEquals("redirect: /exhibitions/user/", createBooking);
+        Assert.assertEquals("redirect: /exhibitions/user", createBooking);
         String updatePaidInformation = adminCommand.execute(request, response);
         Assert.assertEquals("redirect: /exhibitions/admin", updatePaidInformation);
     }

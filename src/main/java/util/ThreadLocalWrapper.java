@@ -9,7 +9,7 @@ public class ThreadLocalWrapper {
     private static final ThreadLocal<Locale> threadLocal = new ThreadLocal<>();
 
     public static Locale getLocale() {
-        return Optional.ofNullable(threadLocal.get()).orElse(Locale.getDefault());
+        return Optional.ofNullable(threadLocal.get()).orElse(Locale.ENGLISH);
     }
 
     public static void setLocale(Locale locale) {

@@ -58,6 +58,7 @@ CREATE TABLE IF NOT EXISTS `exposition` (
   `start_date` DATE NOT NULL,
   `end_date` DATE NOT NULL,
   `price` DOUBLE UNSIGNED NOT NULL,
+  `locale` ENUM('en', 'ua') NOT NULL DEFAULT 'en',
   PRIMARY KEY (`id`),
   UNIQUE INDEX `name_UNIQUE` (`name` ASC))
 ENGINE = InnoDB;
@@ -70,6 +71,7 @@ CREATE TABLE IF NOT EXISTS `showroom` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(32) NOT NULL,
   `booked_by_exposition_id` INT DEFAULT NULL,
+  `locale` ENUM('en', 'ua') NOT NULL DEFAULT 'en',
   PRIMARY KEY (`id`),
   UNIQUE INDEX `name_UNIQUE` (`name` ASC),
   INDEX `exposition_id_idx` (`booked_by_exposition_id` ASC),
@@ -108,12 +110,20 @@ SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
-INSERT INTO exposition VALUES (1, 'Art of Modern Ukraine', 'art', '2020-10-01', '2020-10-08', 9.99);
-INSERT INTO exposition VALUES (2, 'ComicCon', 'entertainment', '2020-10-09', '2020-10-16', 99.99);
-INSERT INTO exposition VALUES (3, 'Mobile World Congress', 'technologies', '2020-10-17', '2020-10-24', 99.99);
-INSERT INTO exposition VALUES (4, 'Ukraine Science', 'science', '2020-10-25', '2020-11-01', 29.99);
-INSERT INTO exposition VALUES (5, 'Ancient Rome and Greece', 'history', '2020-11-02', '2020-11-09', 14.99);
-INSERT INTO exposition VALUES (6, 'AgroExpo', 'other', '2020-11-10', '2020-11-17', 24.99);
+INSERT INTO exposition VALUES (1, 'Art of Modern Ukraine', 'art', '2020-10-01', '2020-10-08', 9.99, 'en');
+INSERT INTO exposition VALUES (2, 'ComicCon', 'entertainment', '2020-10-09', '2020-10-16', 99.99, 'en');
+INSERT INTO exposition VALUES (3, 'Mobile World Congress', 'technologies', '2020-10-17', '2020-10-24', 99.99, 'en');
+INSERT INTO exposition VALUES (4, 'Ukrainian Science', 'science', '2020-10-25', '2020-11-01', 29.99, 'en');
+INSERT INTO exposition VALUES (5, 'Ancient Rome and Greece', 'history', '2020-11-02', '2020-11-09', 14.99, 'en');
+INSERT INTO exposition VALUES (6, 'AgroExpo', 'other', '2020-11-10', '2020-11-17', 24.99, 'en');
+INSERT INTO exposition VALUES (7, 'Мистецтво сучасної України', 'art', '2020-10-01', '2020-10-08', 9.99, 'ua');
+INSERT INTO exposition VALUES (8, 'КомікКон', 'entertainment', '2020-10-09', '2020-10-16', 99.99, 'ua');
+INSERT INTO exposition VALUES (9, 'Всесвітній мобільний конгрес', 'technologies', '2020-10-17', '2020-10-24', 99.99, 'ua');
+INSERT INTO exposition VALUES (10, 'Українська наука', 'science', '2020-10-25', '2020-11-01', 29.99, 'ua');
+INSERT INTO exposition VALUES (11, 'Стародавні Рим та Греція', 'history', '2020-11-02', '2020-11-09', 14.99, 'ua');
+INSERT INTO exposition VALUES (12, 'АгроЕкспо', 'other', '2020-11-10', '2020-11-17', 24.99, 'ua');
 INSERT INTO account VALUES (1, 'Kirill', 'Kirill12', 'Kirill', 'Karpenko', 'admin');
-INSERT INTO showroom VALUES(1, 'Showroom №1', '1');
-INSERT INTO showroom VALUES(2, 'Showroom №2', '2');
+INSERT INTO showroom VALUES(1, 'Showroom №1', '1', 'en');
+INSERT INTO showroom VALUES(2, 'Showroom №2', '2', 'en');
+INSERT INTO showroom VALUES(3, 'Шоурум №1', '7', 'ua');
+INSERT INTO showroom VALUES(4, 'Шоурум №2', '8', 'ua');

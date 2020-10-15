@@ -8,6 +8,7 @@ import util.ThreadLocalWrapper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class AdminCreateShowroomButtonCommand implements Command {
@@ -43,6 +44,12 @@ public class AdminCreateShowroomButtonCommand implements Command {
             adminShowroomService.create(showroom);
         }
 
+        String locale = request.getParameter("locale");
+
+        if (locale == null)
+            locale = request.getSession().getAttribute("lang").toString();
+
+        ThreadLocalWrapper.setLocale(new Locale(locale));
         return "redirect: /exhibitions/admin/showrooms?showroomPage=1";
     }
 

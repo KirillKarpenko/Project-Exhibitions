@@ -40,7 +40,7 @@
                 <c:forEach var="item" items="${sessionScope.cart}" varStatus="loop">
                     <tr>
                         <td align="center"><c:out value="${item.exposition.name}"/></td>
-                        <td align="center"><c:out value="${item.exposition.category}"/></td>
+                        <td align="center"><c:out value="${requestScope.categories[loop.index]}"/></td>
                         <fmt:formatDate value="${item.exposition.startDate}" pattern="yyyy-MM-dd" var="startDate"/>
                         <td align="center"><c:out value="${startDate}"/></td>
                         <fmt:formatDate value="${item.exposition.endDate}" pattern="yyyy-MM-dd" var="endDate"/>

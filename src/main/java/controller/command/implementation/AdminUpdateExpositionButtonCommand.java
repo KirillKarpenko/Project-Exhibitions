@@ -9,10 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class AdminUpdateExpositionButtonCommand implements Command {
 
@@ -40,15 +37,30 @@ public class AdminUpdateExpositionButtonCommand implements Command {
             name = temp.getName();
 
         else if (adminExpositionService.isExists(name)) {
+            List<String> cats = new ArrayList<>();
             List<Exposition.Category> categories = List.of(Exposition.Category.values());
-            request.setAttribute("categories", categories);
+
+            for (Exposition.Category category : categories)
+                cats.add(ResourceBundle.getBundle("locale", ThreadLocalWrapper.getLocale()).getString("enum." + category.name().toLowerCase()));
+
+            request.setAttribute("categories", cats);
             request.setAttribute("exposition", temp);
             request.getSession().setAttribute("expositionExists", ResourceBundle.getBundle("locale",
                     ThreadLocalWrapper.getLocale()).getString("error.expositionExists"));
             return "/jsp/admin/update_exposition.jsp";
         }
 
-        Exposition.Category category = Exposition.Category.valueOf(Optional.ofNullable(request.getParameter("category")).orElse(temp.getCategory().name()));
+        final Exposition.Category[] category = new Exposition.Category[1];
+        String cat = request.getParameter("category");
+        Enumeration<String> keys = ResourceBundle.getBundle("locale", ThreadLocalWrapper.getLocale()).getKeys();
+        Iterator<String> iterator = keys.asIterator();
+        iterator.forEachRemaining(s -> {
+            if (ResourceBundle.getBundle("locale", ThreadLocalWrapper.getLocale()).getString(s).equals(cat))
+                category[0] = Exposition.Category.valueOf(ResourceBundle.getBundle("locale", Locale.ENGLISH).getString(s).toUpperCase());
+        });
+
+        if (category[0] == null)
+            category[0] = temp.getCategory();
 
         String startTime = request.getParameter("start_date");
         Timestamp startDate;
@@ -84,10 +96,16 @@ public class AdminUpdateExpositionButtonCommand implements Command {
         Exposition exposition = new Exposition();
         exposition.setId(temp.getId());
         exposition.setName(name);
-        exposition.setCategory(category);
+        exposition.setCategory(category[0]);
         exposition.setStartDate(startDate);
         exposition.setEndDate(endDate);
         exposition.setPrice(price);
+        String locale = request.getParameter("locale");
+
+        if (locale == null)
+            locale = request.getSession().getAttribute("lang").toString();
+
+        ThreadLocalWrapper.setLocale(new Locale(locale));
         adminExpositionService.update(exposition);
         return "redirect: /exhibitions/admin/expositions?expositionPage=1";
     }

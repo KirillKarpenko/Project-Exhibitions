@@ -40,7 +40,7 @@
                 <div class="row">
                     <select class="col s2 browser-default" name="category">
                         <c:forEach var="category" items="${requestScope.categories}">
-                            <option value="${category}">${category.name()}</option>
+                            <option value="${category}">${category}</option>
                         </c:forEach>
                     </select><br>
                 </div>
@@ -55,6 +55,21 @@
                 <div class="row input-field">
                     <input class="col s1" id="price" type="number" step="0.01" min="0.01" name="price"><br>
                     <label for="price"><fmt:message key="price"/>*</label>
+                </div>
+                <label><fmt:message key="locale"/></label>
+                <div class="row">
+                    <select class="col s2 browser-default" name="locale">
+                        <option value="${sessionScope.lang}" selected disabled hidden>
+                            <c:if test="${sessionScope.lang.equals('ua')}">
+                                Українська
+                            </c:if>
+                            <c:if test="${sessionScope.lang.equals('en')}">
+                                English
+                            </c:if>
+                        </option>
+                        <option value="en">English</option>
+                        <option value="ua">Українська</option>
+                    </select>
                 </div>
                 <button class="btn" type="submit"><fmt:message key="create"/></button>
                 <a class="btn" href="${pageContext.request.contextPath}/exhibitions/admin"><fmt:message key="cancel"/></a>

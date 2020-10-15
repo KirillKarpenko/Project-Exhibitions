@@ -3,13 +3,13 @@ package controller.command.implementation;
 import controller.command.Command;
 import model.entity.Exposition;
 import model.service.UserExpositionService;
+import util.ThreadLocalWrapper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class UserGetExpositionListCommand implements Command {
 
@@ -21,8 +21,13 @@ public class UserGetExpositionListCommand implements Command {
         int expositionsPerPage = 5;
         int page = Integer.parseInt(Optional.ofNullable(request.getParameter("page")).orElse("1"));
         int start = (page-1)*expositionsPerPage;
+        List<String> cats = new ArrayList<>();
         List<Exposition.Category> categories = List.of(Exposition.Category.values());
-        request.setAttribute("categories", categories);
+
+        for (Exposition.Category category : categories)
+            cats.add(ResourceBundle.getBundle("locale", ThreadLocalWrapper.getLocale()).getString("enum." + category.name().toLowerCase()));
+
+        request.setAttribute("all_categories", cats);
         request.setAttribute("page", page);
 
         String category = request.getParameter("category");
@@ -37,31 +42,44 @@ public class UserGetExpositionListCommand implements Command {
             Timestamp startTimestamp = new Timestamp(sd.toEpochDay()*86400000);
             LocalDate ed = LocalDate.parse(endDate);
             Timestamp endTimestamp = new Timestamp(ed.toEpochDay()*86400000);
-            Exposition.Category cat = Exposition.Category.valueOf(category);
-            total = userExpositionService.categoryAndDateAmount(startTimestamp, endTimestamp, cat);
+            final Exposition.Category[] cat = new Exposition.Category[1];
+            Enumeration<String> keys = ResourceBundle.getBundle("locale", ThreadLocalWrapper.getLocale()).getKeys();
+            Iterator<String> iterator = keys.asIterator();
+            iterator.forEachRemaining(s -> {
+                if (ResourceBundle.getBundle("locale", ThreadLocalWrapper.getLocale()).getString(s).equals(category))
+                    cat[0] = Exposition.Category.valueOf(ResourceBundle.getBundle("locale", Locale.ENGLISH).getString(s).toUpperCase());
+            });
+
+            total = userExpositionService.categoryAndDateAmount(startTimestamp, endTimestamp, cat[0]);
 
             if (sort == null || sort.isEmpty())
-                expositions = userExpositionService.filterByDateAndCategoryByPage(startTimestamp, endTimestamp, cat, start, expositionsPerPage);
+                expositions = userExpositionService.filterByDateAndCategoryByPage(startTimestamp, endTimestamp, cat[0], start, expositionsPerPage);
 
             else if (sort.equals("sort_by_price_asc"))
-                expositions = userExpositionService.sortByPriceAscAndFilterByCategoryAndDateByPage(startTimestamp, endTimestamp, cat, start, expositionsPerPage);
+                expositions = userExpositionService.sortByPriceAscAndFilterByCategoryAndDateByPage(startTimestamp, endTimestamp, cat[0], start, expositionsPerPage);
 
             else
-                expositions = userExpositionService.sortByPriceDescAndFilterByCategoryAndDateByPage(startTimestamp, endTimestamp, cat, start, expositionsPerPage);
+                expositions = userExpositionService.sortByPriceDescAndFilterByCategoryAndDateByPage(startTimestamp, endTimestamp, cat[0], start, expositionsPerPage);
         }
 
         else if (category != null && !category.isEmpty()) {
-            Exposition.Category cat = Exposition.Category.valueOf(category);
-            total = userExpositionService.categoryAmount(cat);
+            final Exposition.Category[] cat = new Exposition.Category[1];
+            Enumeration<String> keys = ResourceBundle.getBundle("locale", ThreadLocalWrapper.getLocale()).getKeys();
+            Iterator<String> iterator = keys.asIterator();
+            iterator.forEachRemaining(s -> {
+                if (ResourceBundle.getBundle("locale", ThreadLocalWrapper.getLocale()).getString(s).equals(category))
+                    cat[0] = Exposition.Category.valueOf(ResourceBundle.getBundle("locale", Locale.ENGLISH).getString(s).toUpperCase());
+            });
+            total = userExpositionService.categoryAmount(cat[0]);
 
             if (sort == null || sort.isEmpty())
-                expositions = userExpositionService.filterByCategoryByPage(cat, start, expositionsPerPage);
+                expositions = userExpositionService.filterByCategoryByPage(cat[0], start, expositionsPerPage);
 
             else if (sort.equals("sort_by_price_asc"))
-                expositions = userExpositionService.sortByPriceAscAndFilterByCategoryByPage(cat, start, expositionsPerPage);
+                expositions = userExpositionService.sortByPriceAscAndFilterByCategoryByPage(cat[0], start, expositionsPerPage);
 
             else
-                expositions = userExpositionService.sortByPriceDescAndFilterByCategoryByPage(cat, start, expositionsPerPage);
+                expositions = userExpositionService.sortByPriceDescAndFilterByCategoryByPage(cat[0], start, expositionsPerPage);
         }
 
         else if (startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
@@ -94,6 +112,12 @@ public class UserGetExpositionListCommand implements Command {
                 expositions = userExpositionService.sortByPriceDescByPage(start, expositionsPerPage);
         }
 
+        cats = new ArrayList<>();
+
+        for (Exposition exposition : expositions)
+            cats.add(ResourceBundle.getBundle("locale", ThreadLocalWrapper.getLocale()).getString("enum." + exposition.getCategory().name().toLowerCase()));
+
+        request.setAttribute("categories", cats);
         request.setAttribute("category", category);
         request.setAttribute("start_date", startDate);
         request.setAttribute("end_date", endDate);

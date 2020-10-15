@@ -36,9 +36,9 @@
                 <h6><fmt:message key="category"/></h6>
                 <div class="row">
                     <select class="col s2 browser-default" name="category">
-                        <option value="${requestScope.exposition.category}" selected disabled hidden>${requestScope.exposition.category}</option>
+                        <option value="${requestScope.exposition.category}" selected disabled hidden>${requestScope.category}</option>
                         <c:forEach var="category" items="${requestScope.categories}">
-                            <option value="${category}">${category.name()}</option>
+                            <option value="${category}">${category}</option>
                         </c:forEach>
                     </select><br>
                 </div>
@@ -53,6 +53,21 @@
                 <h6><fmt:message key="price"/></h6>
                 <div class="row">
                     <input class="col s1" type="number" step="0.01" min=0 name="price" placeholder="${requestScope.exposition.price}"><br>
+                </div>
+                <label><fmt:message key="locale"/></label>
+                <div class="row">
+                    <select class="col s2 browser-default" name="locale">
+                        <option value="${sessionScope.lang}" selected disabled hidden>
+                            <c:if test="${sessionScope.lang.equals('ua')}">
+                                Українська
+                            </c:if>
+                            <c:if test="${sessionScope.lang.equals('en')}">
+                                English
+                            </c:if>
+                        </option>
+                        <option value="en">English</option>
+                        <option value="ua">Українська</option>
+                    </select>
                 </div>
                 <button class="btn" type="submit" name="exposition" value="${requestScope.exposition}"><fmt:message key="update"/></button>
                 <a class="btn" href="${pageContext.request.contextPath}/exhibitions/admin/expositions?expositionPage=1"><fmt:message key="cancel"/></a>

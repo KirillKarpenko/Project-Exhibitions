@@ -34,10 +34,10 @@
                     <th><fmt:message key="endDate"/></th>
                     <th><fmt:message key="price"/></th>
                 </tr>
-                <c:forEach var="exp" items="${requestScope.expositions}">
+                <c:forEach var="exp" items="${requestScope.expositions}" varStatus="i">
                     <tr>
                         <td align="center"><c:out value="${exp.name}"/></td>
-                        <td align="center"><c:out value="${exp.category}"/></td>
+                        <td align="center"><c:out value="${requestScope.categories[i.index]}"/></td>
                         <fmt:formatDate value="${exp.startDate}" pattern="yyyy-MM-dd" var="startDate"/>
                         <td align="center"><c:out value="${startDate}"/></td>
                         <fmt:formatDate value="${exp.endDate}" pattern="yyyy-MM-dd" var="endDate"/>

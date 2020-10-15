@@ -8,12 +8,14 @@ import org.mockito.Mockito;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class ExpositionCreationTest {
 
     AdminCreateExpositionButtonCommand command = new AdminCreateExpositionButtonCommand();
     HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
     HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
+    HttpSession session = Mockito.mock(HttpSession.class);
 
     @Before
     public void setup() {
@@ -22,6 +24,8 @@ public class ExpositionCreationTest {
         Mockito.when(request.getParameter("end_date")).thenReturn("2020-10-02");
         Mockito.when(request.getParameter("price")).thenReturn("0.99");
         Mockito.when(request.getParameter("category")).thenReturn("OTHER");
+        Mockito.when(request.getSession()).thenReturn(session);
+        Mockito.when(request.getSession().getAttribute("lang")).thenReturn("en");
     }
 
     @Test

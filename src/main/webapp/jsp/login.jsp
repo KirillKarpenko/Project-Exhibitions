@@ -26,6 +26,7 @@
                 </div>
             </nav>
             <c:out value="${sessionScope.wrongUsernameOrPassword}"/><br>
+            <% session.removeAttribute("wrongUsernameOrPassword"); %>
             <form method="post" action="${pageContext.request.contextPath}/exhibitions/login/login_button">
                 <div class="row input-field">
                     <input class="col s2" id="username" type="text" name="login"/><br>

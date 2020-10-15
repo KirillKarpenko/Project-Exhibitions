@@ -35,10 +35,10 @@
                         <th><fmt:message key="endDate"/></th>
                         <th><fmt:message key="quantity"/></th>
                     </tr>
-                    <c:forEach var="ticket" items="${booking.tickets}">
+                    <c:forEach var="ticket" items="${booking.tickets}" varStatus="i">
                         <tr>
                             <td align="center"><c:out value="${ticket.exposition.name}"/></td>
-                            <td align="center"><c:out value="${ticket.exposition.category}"/></td>
+                            <td align="center"><c:out value="${requestScope.categories[i.index]}"/></td>
                             <fmt:formatDate value="${ticket.exposition.startDate}" pattern="yyyy-MM-dd" var="startDate"/>
                             <td align="center"><c:out value="${startDate}"/></td>
                             <fmt:formatDate value="${ticket.exposition.endDate}" pattern="yyyy-MM-dd" var="endDate"/>

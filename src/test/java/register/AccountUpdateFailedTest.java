@@ -35,7 +35,7 @@ public class AccountUpdateFailedTest {
     @Test
     public void process() {
         String updateAccount = command.execute(request, response);
-        Assert.assertEquals("/jsp/user/edit_account.jsp", updateAccount);
+        Assert.assertEquals("redirect: /exhibitions/user/account_info/edit_account", updateAccount);
     }
 
 }

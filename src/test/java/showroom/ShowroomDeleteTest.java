@@ -24,7 +24,7 @@ public class ShowroomDeleteTest {
     @Test
     public void test() {
         String deleteShowroom = command.execute(request, response);
-        Assert.assertEquals("/exhibitions/admin/showrooms?showroomPage=1", deleteShowroom);
+        Assert.assertEquals("redirect: /exhibitions/admin/showrooms?showroomPage=1", deleteShowroom);
     }
 
 }

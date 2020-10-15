@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class AdminCreateExpositionButtonCommand implements Command {
@@ -34,7 +37,15 @@ public class AdminCreateExpositionButtonCommand implements Command {
             return "redirect: /exhibitions/admin/create_exposition";
         }
 
-        Exposition.Category category = Exposition.Category.valueOf(request.getParameter("category"));
+        final Exposition.Category[] category = new Exposition.Category[1];
+        String cat = request.getParameter("category");
+        Enumeration<String> keys = ResourceBundle.getBundle("locale", ThreadLocalWrapper.getLocale()).getKeys();
+        Iterator<String> iterator = keys.asIterator();
+        iterator.forEachRemaining(s -> {
+            if (ResourceBundle.getBundle("locale", ThreadLocalWrapper.getLocale()).getString(s).equals(cat))
+                category[0] = Exposition.Category.valueOf(ResourceBundle.getBundle("locale", Locale.ENGLISH).getString(s).toUpperCase());
+        });
+
         LocalDate sd = LocalDate.parse(startLocalDate);
         Timestamp startDate = new Timestamp(sd.toEpochDay()*86400000);
         LocalDate ed = LocalDate.parse(endLocalDate);
@@ -42,10 +53,16 @@ public class AdminCreateExpositionButtonCommand implements Command {
         double price = Double.parseDouble(stingPrice);
         Exposition exposition = new Exposition();
         exposition.setName(name);
-        exposition.setCategory(category);
+        exposition.setCategory(category[0]);
         exposition.setStartDate(startDate);
         exposition.setEndDate(endDate);
         exposition.setPrice(price);
+        String locale = request.getParameter("locale");
+
+        if (locale == null)
+            locale = request.getSession().getAttribute("lang").toString();
+
+        ThreadLocalWrapper.setLocale(new Locale(locale));
         adminExpositionService.create(exposition);
         return "redirect: /exhibitions/admin/expositions?expositionPage=1";
     }

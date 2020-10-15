@@ -31,7 +31,7 @@ public class FailedRegisterTest {
     @Test
     public void process() {
         String registerAccount = command.execute(request, response);
-        Assert.assertEquals("/jsp/register.jsp", registerAccount);
+        Assert.assertEquals("redirect: /exhibitions/register", registerAccount);
     }
 
 }

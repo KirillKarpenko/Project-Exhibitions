@@ -4,6 +4,7 @@ import model.dao.ExpositionDao;
 import model.entity.Exposition;
 import org.apache.log4j.Logger;
 import util.QueryManager;
+import util.ThreadLocalWrapper;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class ExpositionDaoImpl implements ExpositionDao {
             preparedStatement.setTimestamp(3, exposition.getStartDate());
             preparedStatement.setTimestamp(4, exposition.getEndDate());
             preparedStatement.setDouble(5, exposition.getPrice());
+            preparedStatement.setString(6, ThreadLocalWrapper.getLocale().toString());
             preparedStatement.executeUpdate();
 
             try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
@@ -62,6 +64,7 @@ public class ExpositionDaoImpl implements ExpositionDao {
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(findByName)) {
             preparedStatement.setString(1, name);
+            preparedStatement.setString(2, ThreadLocalWrapper.getLocale().toString());
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next())
@@ -80,8 +83,9 @@ public class ExpositionDaoImpl implements ExpositionDao {
         List<Exposition> expositions = new ArrayList<>();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(findByPage)) {
-            preparedStatement.setInt(1, start);
-            preparedStatement.setInt(2, total);
+            preparedStatement.setString(1, ThreadLocalWrapper.getLocale().toString());
+            preparedStatement.setInt(2, start);
+            preparedStatement.setInt(3, total);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next())
@@ -99,12 +103,13 @@ public class ExpositionDaoImpl implements ExpositionDao {
         String findExpositionsNames = QueryManager.getString("exposition.findExpositionsNames");
         List<String> expositionsNames = new ArrayList<>();
 
-        try (Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(findExpositionsNames)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(findExpositionsNames)) {
+            preparedStatement.setString(1, ThreadLocalWrapper.getLocale().toString());
 
-            while (resultSet.next())
-                expositionsNames.add(resultSet.getString(1));
-
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next())
+                    expositionsNames.add(resultSet.getString(1));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -116,8 +121,10 @@ public class ExpositionDaoImpl implements ExpositionDao {
     public int amount() {
         String amount = QueryManager.getString("exposition.amount");
 
-        try (Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(amount)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(amount)) {
+            preparedStatement.setString(1, ThreadLocalWrapper.getLocale().toString());
+            ResultSet resultSet = preparedStatement.executeQuery();
+
             if (resultSet.next())
                 return resultSet.getInt("count");
         } catch (SQLException e) {
@@ -135,8 +142,9 @@ public class ExpositionDaoImpl implements ExpositionDao {
         try (PreparedStatement preparedStatement = connection.prepareStatement(filterByDateByPage)) {
             preparedStatement.setTimestamp(1, startDate);
             preparedStatement.setTimestamp(2, endDate);
-            preparedStatement.setInt(3, start);
-            preparedStatement.setInt(4, total);
+            preparedStatement.setString(3, ThreadLocalWrapper.getLocale().toString());
+            preparedStatement.setInt(4, start);
+            preparedStatement.setInt(5, total);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next())
@@ -156,6 +164,7 @@ public class ExpositionDaoImpl implements ExpositionDao {
         try (PreparedStatement preparedStatement = connection.prepareStatement(dateAmount)) {
             preparedStatement.setTimestamp(1, startDate);
             preparedStatement.setTimestamp(2, endDate);
+            preparedStatement.setString(3, ThreadLocalWrapper.getLocale().toString());
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next())
@@ -174,8 +183,9 @@ public class ExpositionDaoImpl implements ExpositionDao {
         List<Exposition> expositions = new ArrayList<>();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sortByPriceAscByPage)) {
-            preparedStatement.setInt(1, start);
-            preparedStatement.setInt(2, total);
+            preparedStatement.setString(1, ThreadLocalWrapper.getLocale().toString());
+            preparedStatement.setInt(2, start);
+            preparedStatement.setInt(3, total);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next())
@@ -194,8 +204,9 @@ public class ExpositionDaoImpl implements ExpositionDao {
         List<Exposition> expositions = new ArrayList<>();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sortByPriceDescByPage)) {
-            preparedStatement.setInt(1, start);
-            preparedStatement.setInt(2, total);
+            preparedStatement.setString(1, ThreadLocalWrapper.getLocale().toString());
+            preparedStatement.setInt(2, start);
+            preparedStatement.setInt(3, total);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next())
@@ -216,8 +227,9 @@ public class ExpositionDaoImpl implements ExpositionDao {
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(filterByCategoryByPage)) {
             preparedStatement.setString(1, category.name());
-            preparedStatement.setInt(2, start);
-            preparedStatement.setInt(3, total);
+            preparedStatement.setString(2, ThreadLocalWrapper.getLocale().toString());
+            preparedStatement.setInt(3, start);
+            preparedStatement.setInt(4, total);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next())
@@ -236,6 +248,7 @@ public class ExpositionDaoImpl implements ExpositionDao {
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(categoryAmount)) {
             preparedStatement.setString(1, category.name());
+            preparedStatement.setString(2, ThreadLocalWrapper.getLocale().toString());
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next())
@@ -255,8 +268,9 @@ public class ExpositionDaoImpl implements ExpositionDao {
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, category.name());
-            preparedStatement.setInt(2, start);
-            preparedStatement.setInt(3, total);
+            preparedStatement.setString(2, ThreadLocalWrapper.getLocale().toString());
+            preparedStatement.setInt(3, start);
+            preparedStatement.setInt(4, total);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next())
@@ -276,8 +290,9 @@ public class ExpositionDaoImpl implements ExpositionDao {
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, category.name());
-            preparedStatement.setInt(2, start);
-            preparedStatement.setInt(3, total);
+            preparedStatement.setString(2, ThreadLocalWrapper.getLocale().toString());
+            preparedStatement.setInt(3, start);
+            preparedStatement.setInt(4, total);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next())
@@ -298,8 +313,9 @@ public class ExpositionDaoImpl implements ExpositionDao {
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setTimestamp(1, startDate);
             preparedStatement.setTimestamp(2, endDate);
-            preparedStatement.setInt(3, start);
-            preparedStatement.setInt(4, total);
+            preparedStatement.setString(3, ThreadLocalWrapper.getLocale().toString());
+            preparedStatement.setInt(4, start);
+            preparedStatement.setInt(5, total);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next())
@@ -320,8 +336,9 @@ public class ExpositionDaoImpl implements ExpositionDao {
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setTimestamp(1, startDate);
             preparedStatement.setTimestamp(2, endDate);
-            preparedStatement.setInt(3, start);
-            preparedStatement.setInt(4, total);
+            preparedStatement.setString(3, ThreadLocalWrapper.getLocale().toString());
+            preparedStatement.setInt(4, start);
+            preparedStatement.setInt(5, total);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next())
@@ -343,8 +360,9 @@ public class ExpositionDaoImpl implements ExpositionDao {
             preparedStatement.setTimestamp(1, startDate);
             preparedStatement.setTimestamp(2, endDate);
             preparedStatement.setString(3, category.name());
-            preparedStatement.setInt(4, start);
-            preparedStatement.setInt(5, total);
+            preparedStatement.setString(4, ThreadLocalWrapper.getLocale().toString());
+            preparedStatement.setInt(5, start);
+            preparedStatement.setInt(6, total);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next())
@@ -366,8 +384,9 @@ public class ExpositionDaoImpl implements ExpositionDao {
             preparedStatement.setTimestamp(1, startDate);
             preparedStatement.setTimestamp(2, endDate);
             preparedStatement.setString(3, category.name());
-            preparedStatement.setInt(4, start);
-            preparedStatement.setInt(5, total);
+            preparedStatement.setString(4, ThreadLocalWrapper.getLocale().toString());
+            preparedStatement.setInt(5, start);
+            preparedStatement.setInt(6, total);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next())
@@ -389,8 +408,9 @@ public class ExpositionDaoImpl implements ExpositionDao {
             preparedStatement.setTimestamp(1, startDate);
             preparedStatement.setTimestamp(2, endDate);
             preparedStatement.setString(3, category.name());
-            preparedStatement.setInt(4, start);
-            preparedStatement.setInt(5, total);
+            preparedStatement.setString(4, ThreadLocalWrapper.getLocale().toString());
+            preparedStatement.setInt(5, start);
+            preparedStatement.setInt(6, total);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next())
@@ -411,6 +431,7 @@ public class ExpositionDaoImpl implements ExpositionDao {
             preparedStatement.setTimestamp(1, startDate);
             preparedStatement.setTimestamp(2, endDate);
             preparedStatement.setString(3, category.name());
+            preparedStatement.setString(4, ThreadLocalWrapper.getLocale().toString());
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next())
@@ -434,7 +455,8 @@ public class ExpositionDaoImpl implements ExpositionDao {
             preparedStatement.setTimestamp(3, exposition.getStartDate());
             preparedStatement.setTimestamp(4, exposition.getEndDate());
             preparedStatement.setDouble(5, exposition.getPrice());
-            preparedStatement.setInt(6, exposition.getId());
+            preparedStatement.setString(6, ThreadLocalWrapper.getLocale().toString());
+            preparedStatement.setInt(7, exposition.getId());
 
             if (preparedStatement.executeUpdate() == 0)
                 throw new SQLException("There is nothing to update in exposition!");

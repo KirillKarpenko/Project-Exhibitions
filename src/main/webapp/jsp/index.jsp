@@ -19,8 +19,8 @@
             <div class="nav-wrapper">
                 <a class="brand-logo" href="${pageContext.request.contextPath}/exhibitions/index?page=1"><fmt:message key="exhibitions"/></a>
                 <ul class="right hide-on-med-and-down">
-                    <li><a href="${pageContext.request.contextPath}exhibitions/index?page=${requestScope.page}&locale=en"><fmt:message key="en"/></a></li>
-                    <li><a href="${pageContext.request.contextPath}exhibitions/index?page=${requestScope.page}&locale=ua"><fmt:message key="ua"/></a></li>
+                    <li><a href="?locale=en"><fmt:message key="en"/></a></li>
+                    <li><a href="?locale=ua"><fmt:message key="ua"/></a></li>
                     <c:choose>
                         <c:when test="${sessionScope.account eq null}">
                             <li><a href="${pageContext.request.contextPath}/exhibitions/login"><fmt:message key="login"/></a></li>

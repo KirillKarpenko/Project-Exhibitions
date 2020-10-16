@@ -35,8 +35,8 @@
                     <th><fmt:message key="price"/></th>
                     <th><fmt:message key="quantity"/></th>
                 </tr>
-                <tr>
-                    <c:forEach var="ticket" items="${requestScope.unpaidBooking.tickets}" varStatus="i">
+                <c:forEach var="ticket" items="${requestScope.unpaidBooking.tickets}" varStatus="i">
+                    <tr>
                         <td align="center"><c:out value="${ticket.exposition.name}"/></td>
                         <td align="center"><c:out value="${requestScope.categories[i.index]}"/></td>
                         <fmt:formatDate value="${ticket.exposition.startDate}" pattern="yyyy-MM-dd" var="startDate"/>
@@ -45,8 +45,8 @@
                         <td align="center"><c:out value="${endDate}"/></td>
                         <td align="center"><c:out value="${ticket.exposition.price}"/></td>
                         <td align="center"><c:out value="${ticket.quantity}"/></td>
-                    </c:forEach>
-                </tr>
+                    </tr>
+                </c:forEach>
                 <tr>
                     <td><h6><fmt:message key="bookingID"/>: <c:out value="${requestScope.unpaidBooking.id}"/></h6></td>
                     <td></td>

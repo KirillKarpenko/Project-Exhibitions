@@ -15,7 +15,7 @@
                 response.addDateHeader ("Expires", 0);
             %>
             <h1 class="error">Error 404</h1>
-            <a class="btn return_home" href="${pageContext.request.contextPath}/exhibitions/index?expositionPage=1">Return Home</a>
+            <a class="btn return_home" href="${pageContext.request.contextPath}/exhibitions/index?page=1"><fmt:message key="mainPage"/></a>
     </body>
     </html>
 </fmt:bundle>

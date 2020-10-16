@@ -5,6 +5,7 @@
 <fmt:bundle basename="locale" prefix="admin.">
     <html>
         <head>
+            <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css"/>
             <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/materialize.min.css"/>
             <title><fmt:message key="adminPage"/></title>
         </head>

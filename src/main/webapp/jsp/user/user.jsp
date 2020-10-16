@@ -31,6 +31,9 @@
             <a class="btn" href="${pageContext.request.contextPath}/exhibitions/user/account_info"><fmt:message key="accountInformation"/></a><br><br>
             <a class="btn" href="${pageContext.request.contextPath}/exhibitions/user/cart"><fmt:message key="cart"/></a><br><br>
             <a class="btn" href="${pageContext.request.contextPath}/exhibitions/user/bookings?bookingPage=1"><fmt:message key="bookings"/></a><br>
+            <c:out value="${sessionScope.unpaidBookingDoNotExists}"/><br>
+            <% session.removeAttribute("unpaidBookingDoNotExists"); %>
+            <a class="btn" href="${pageContext.request.contextPath}/exhibitions/user/unpaid_booking"><fmt:message key="unpaidBooking"/></a>
         </body>
     </html>
 </fmt:bundle>

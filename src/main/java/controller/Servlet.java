@@ -39,6 +39,7 @@ public class Servlet extends HttpServlet {
         commands.put("admin/expositions", new AdminGetExpositionListCommand());
         commands.put("admin/showrooms", new AdminGetShowroomListCommand());
         commands.put("admin/unpaid_booking", new AdminGetUnpaidBookingCommand());
+        commands.put("admin/unpaid_booking/delete_unpaid_booking_button", new AdminDeleteUnpaidBookingCommand());
         commands.put("admin/expositions/update_exposition/update_exposition_button", new AdminUpdateExpositionButtonCommand());
         commands.put("admin/expositions/update_exposition", new AdminUpdateExpositionPageCommand());
         commands.put("admin/unpaid_booking/update_booking_button", new AdminUpdatePaidInformationButtonCommand());
@@ -46,8 +47,10 @@ public class Servlet extends HttpServlet {
         commands.put("admin/showrooms/update_showroom", new AdminUpdateShowroomPageCommand());
         commands.put("user", new UserCommand());
         commands.put("user/add_to_cart", new UserAddToCartButtonCommand());
-        commands.put("user/account_info/delete_account", new UserDeleteAccountButtonCommand());
+        commands.put("user/account_info/delete_account_button", new UserDeleteAccountButtonCommand());
         commands.put("user/bookings", new UserGetAccountBookingListCommand());
+        commands.put("user/unpaid_booking", new UserGetUnpaidBookingCommand());
+        commands.put("user/unpaid_booking/delete_unpaid_booking_button", new UserDeleteUnpaidBookingCommand());
         commands.put("user/account_info", new UserGetAccountInfoCommand());
         commands.put("user/cart", new UserGetCartListCommand());
         commands.put("user/cart/remove_from_cart", new UserRemoveFromCartButtonCommand());

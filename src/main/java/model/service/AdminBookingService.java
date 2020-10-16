@@ -20,4 +20,10 @@ public class AdminBookingService {
         }
     }
 
+    public void deleteById(int id) {
+        try (BookingDao bookingDao = daoFactory.createBookingDao()) {
+            bookingDao.deleteById(id);
+        }
+    }
+
 }

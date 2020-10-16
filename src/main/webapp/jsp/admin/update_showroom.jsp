@@ -42,20 +42,6 @@
                         </c:forEach>
                     </select><br>
                 </div>
-                <div class="row">
-                    <select class="col s2 browser-default" name="locale">
-                        <option value="${sessionScope.lang}" selected disabled hidden>
-                            <c:if test="${sessionScope.lang.equals('ua')}">
-                                Українська
-                            </c:if>
-                            <c:if test="${sessionScope.lang.equals('en')}">
-                                English
-                            </c:if>
-                        </option>
-                        <option value="en">English</option>
-                        <option value="ua">Українська</option>
-                    </select>
-                </div>
                 <button class="btn" type="submit" name="showroom" value="${requestScope.showroom}"><fmt:message key="update"/></button>
                 <a class="btn" href="${pageContext.request.contextPath}/exhibitions/admin/showrooms?showroomPage=1"><fmt:message key="cancel"/></a>
             </form>

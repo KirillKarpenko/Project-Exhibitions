@@ -30,7 +30,7 @@
             <h6><fmt:message key="firstName"/>: ${sessionScope.account.firstName}</h6><br>
             <h6><fmt:message key="lastName"/>: ${sessionScope.account.lastName}</h6><br>
             <a class="btn" href="${pageContext.request.contextPath}/exhibitions/user/account_info/edit_account"><fmt:message key="update"/></a>
-            <a class="btn red" href="${pageContext.request.contextPath}/exhibitions/user/account_info/delete_account"><fmt:message key="delete"/></a>
+            <a class="btn red" href="${pageContext.request.contextPath}/exhibitions/user/account_info/delete_account_button"><fmt:message key="delete"/></a>
         </body>
     </html>
 </fmt:bundle>

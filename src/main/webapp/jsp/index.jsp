@@ -46,7 +46,6 @@
             <div class="col"></div>
             <a class="col s3 btn" href="${pageContext.request.contextPath}/exhibitions/index?category=${requestScope.category}&start_date=${requestScope.start_date}&end_date=${requestScope.end_date}&sort=sort_by_price_desc&page=1"><fmt:message key="sortByPriceDesc"/></a>
         </div>
-
         <div class="row">
             <form method="get" action="${pageContext.request.contextPath}/exhibitions/index?category=${requestScope.category}&start_date=${requestScope.start_date}&end_date=${requestScope.end_date}&sort=${requestScope.sort}&page=1">
                 <select class="col s2 browser-default" name="category">
@@ -70,6 +69,8 @@
                 <button class="btn col s4" type="submit"><fmt:message key="filterByDate"/></button>
             </form>
         </div>
+        <c:out value="${sessionScope.maxAmountOfTickets}"/><br>
+        <% session.removeAttribute("maxAmountOfTickets"); %>
         <table>
             <tr>
                 <th align="center"><fmt:message key="name"/></th>

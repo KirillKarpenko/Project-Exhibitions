@@ -22,7 +22,6 @@ public class UserDeleteAccountButtonCommand implements Command {
 
         userAccountService.deleteById(account.getId());
         session.removeAttribute("account");
-        session.invalidate();
         return "redirect: /exhibitions/index?expositionPage=1";
     }
 

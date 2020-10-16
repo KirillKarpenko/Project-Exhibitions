@@ -83,12 +83,6 @@ public class AdminUpdateShowroomButtonCommand implements Command {
             adminShowroomService.update(showroom);
         }
 
-        String locale = request.getParameter("locale");
-
-        if (locale == null)
-            locale = request.getSession().getAttribute("lang").toString();
-
-        ThreadLocalWrapper.setLocale(new Locale(locale));
         return "redirect: /exhibitions/admin/showrooms?showroomPage=1";
     }
 

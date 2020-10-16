@@ -29,9 +29,21 @@ public class UserBookingService {
         }
     }
 
+    public Booking findUnpaidBookingByAccountId(int id) {
+        try (BookingDao bookingDao = daoFactory.createBookingDao()) {
+            return bookingDao.findUnpaidBookingByAccountId(id);
+        }
+    }
+
     public int accountAmount(int id) {
         try (BookingDao bookingDao = daoFactory.createBookingDao()) {
             return bookingDao.accountAmount(id);
+        }
+    }
+
+    public void deleteById(int id) {
+        try (BookingDao bookingDao = daoFactory.createBookingDao()) {
+            bookingDao.deleteById(id);
         }
     }
 

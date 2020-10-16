@@ -3,6 +3,7 @@ package controller.command.implementation;
 import controller.command.Command;
 import model.entity.Exposition;
 import model.entity.Ticket;
+import util.ThreadLocalWrapper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 
 public class UserAddToCartButtonCommand implements Command {
@@ -35,6 +37,11 @@ public class UserAddToCartButtonCommand implements Command {
                 Ticket ticket = cart.get(i);
 
                 if (ticket.getExposition().getId() == newTicket.getExposition().getId()) {
+                    if (ticket.getQuantity() + newTicket.getQuantity() > 10) {
+                        request.getSession().setAttribute("maxAmountOfTickets", ResourceBundle.getBundle("locale", ThreadLocalWrapper.getLocale()).getString("error.maxAmountOfTickets"));
+                        return "redirect: /exhibitions/index?expositionPage=1";
+                    }
+
                     ticket.setQuantity(ticket.getQuantity() + newTicket.getQuantity());
                     cart.set(i, ticket);
                     match = true;
